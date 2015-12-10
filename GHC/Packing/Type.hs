@@ -151,7 +151,7 @@ parseP = readP_to_S $
             let sz = read sz_str::Int
             string ", program "
             h  <- munch1 (not . (== '\n'))
-            when (read h /= prgHash) (throw P_BinaryMismatch)
+--            when (read h /= prgHash) (throw P_BinaryMismatch)
               -- executables do not match. No ambiguous parses here,
               -- so just throw; otherwise we would only pfail.
             newline
@@ -195,8 +195,7 @@ instance Typeable a => Binary (Serialized a) where
                             sz# -> (I# sz# ) `div` sizeOf(undefined::TargetWord)
              put arr
     get = do hash   <- get :: Get FP
-             when (hash /= prgHash) 
-               (throw P_BinaryMismatch) 
+--             when (hash /= prgHash) (throw P_BinaryMismatch) 
              -- executables do not match
              tp <- get :: Get FP
              when (tp /= typeFP (undefined :: a))
